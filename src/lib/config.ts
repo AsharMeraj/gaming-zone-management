@@ -1,0 +1,1 @@
+export const AUTHENTICATION = process.env.NEXT_PUBLIC_AUTHENTICATION !== 'false';

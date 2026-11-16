@@ -6,6 +6,7 @@ import { Suspense, useEffect, useState } from 'react';
 import { Gamepad2, LogOut, Menu, X } from 'lucide-react';
 import { NAV } from '@/lib/nav';
 import { useAuth } from '@/store/auth';
+import { AUTHENTICATION } from '@/lib/config';
 
 function AppShell({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false);
@@ -15,8 +16,11 @@ function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
 
-  useEffect(() => {
-    Promise.resolve(useAuth.persist.rehydrate()).then(() => setReady(true));
+    useEffect(() => {
+    Promise.resolve(useAuth.persist.rehydrate()).then(() => {
+      if (!AUTHENTICATION) useAuth.getState().guestLogin();
+      setReady(true);
+    });
   }, []);
 
   useEffect(() => {

@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, EyeOff, Gamepad2, LogIn } from 'lucide-react';
 import { useAuth } from '@/store/auth';
+import { AUTHENTICATION } from '@/lib/config';
 
 export default function LoginPage() {
   const login = useAuth((s) => s.login);
@@ -13,6 +14,10 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (!AUTHENTICATION) router.replace('/dashboard');
+  }, [router]);
 
   const valid = Boolean(username.trim() && password);
 
